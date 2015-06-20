@@ -12,5 +12,13 @@ object Exercise2 {
    *         Eg  num=0 returns List(0).
    *             num=1234 returns List(1234,234,34,4)
    */
-  def leftTruncate(num:Int):List[Int] = List(3)
+  def leftTruncate(num: Int): List[Int] = {
+    def myTruncate(n: String, acc: List[Int]): List[Int] = n match {
+      case "" => acc
+      case "0" => List(0)
+      case x if (x.toInt < 0) => List()
+      case x => myTruncate(x.substring(1), acc :+ n.toInt)
+    }
+    myTruncate(num.toString, List())
+  }
 }

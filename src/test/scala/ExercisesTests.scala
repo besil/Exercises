@@ -6,6 +6,10 @@ import org.scalatest.FunSuite
  */
 class ExercisesTests extends FunSuite {
 
+  test("Case limits") {
+    assert(Exercise2.leftTruncate(-1) == List())
+  }
+
   test("Case0") {
     assert(Exercise2.leftTruncate(0) == List(0))
   }
