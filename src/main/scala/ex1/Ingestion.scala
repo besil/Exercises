@@ -11,7 +11,10 @@ object Ingestion {
 
     val conf = new SparkConf().setAppName("Simple Application").setMaster("local[*]")
     val sc: SparkContext = new SparkContext(conf)
-    val c = sc.parallelize(1 to 10 toList).count
-    println(c)
+
+    val f1 = sc.textFile("data/2012.csv.gz")
+
+    println(f1.count())
+
   }
 }
