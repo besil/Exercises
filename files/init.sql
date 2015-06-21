@@ -3,5 +3,6 @@ CREATE KEYSPACE meteo WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replicat
 use meteo;
 
 create table data (
+    id text PRIMARY KEY,
 
 );
