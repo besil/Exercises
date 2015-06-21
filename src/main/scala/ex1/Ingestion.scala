@@ -33,7 +33,7 @@ object Ingestion {
 
     }
 
-    save(years.head, 0.01)
+    save(years.head, 0.001)
 
     val rdd = sc.cassandraTable[Record]("meteo", "data")
     println("There are " + rdd.count + " records")

@@ -9,7 +9,7 @@ import org.apache.spark.{SparkConf, SparkContext}
  */
 object Analysis {
   def main(args: Array[String]) {
-    println("Starting data ingestion")
+    println("Starting data analysis")
     val conf = new SparkConf()
       .setAppName("Meteo Demo Analysis")
       .setMaster("local[*]")
@@ -20,6 +20,13 @@ object Analysis {
 
     val data = sc.cassandraTable[Record]("meteo", "data")
 
+    val prcp = data.filter(_.obsType == "PRCP")
+
     println("There are " + data.count + " records")
+    println("There are " + prcp.count + " precipitations")
+
+    val max = prcp.max()(Ordering.by(record => record.obsValue))
+    println("Max precipitation is: " + max)
+
   }
 }
