@@ -12,7 +12,7 @@ object Ingestion {
   def main(args: Array[String]) {
     println("Starting data ingestion")
     val conf = new SparkConf()
-      .setAppName("Meteo Demo")
+      .setAppName("Meteo Demo Ingestion")
       .setMaster("local[*]")
       .set("spark.cassandra.connection.host", "127.0.0.1")
 

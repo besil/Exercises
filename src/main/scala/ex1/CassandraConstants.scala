@@ -1,4 +1,4 @@
-package ex2
+package ex1
 
 /**
  * Created by besil on 21/06/15.
