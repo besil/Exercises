@@ -9,3 +9,16 @@ case class Record(sid: String,
                   obsType: String,
                   obsValue: String
                    )
+
+object Importer {
+  def getRecord(line: String): Record = {
+    val split: Seq[String] = line.split(",")
+    val sid = split(0)
+    val date = split(1)
+    val obsType = split(2)
+    val obsValue = split(3)
+    val time: String = if (split.length == 8) split(7) else ""
+
+    Record(sid, date, time, obsType, obsValue)
+  }
+}

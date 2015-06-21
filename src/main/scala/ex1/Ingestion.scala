@@ -1,7 +1,8 @@
 package ex1
 
 import com.datastax.spark.connector._
-import commons.Record
+import commons.{Importer, Record}
+import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 
 /**
@@ -18,27 +19,24 @@ object Ingestion {
     val sc: SparkContext = new SparkContext(conf)
     sc.setLogLevel("WARN")
 
-    val years = List("2012, 2013, 2014").map(x => "data/" + x + ".csv.gz")
-    println("Using files: ")
-    years.foreach(println)
+    val years = List("2012", "2013", "2014").map(x => ("data/" + x + ".csv.gz"))
 
-    //    val f1 = sc.textFile("data/2012.csv.gz")
+    def save(fileName: String, fraction: Double = 1.0): Unit = {
+      println("Saving data from " + fileName)
+      val f: RDD[String] = sc.textFile(fileName)
+      println("There are " + f.count() + " records")
 
+      val sample = f.sample(true, fraction)
+      println("Sampling " + (fraction * 100.0) + "% of them... Taking only " + sample.count)
 
-    val l = sc.parallelize(List(Record("0", "0", "0", "0", "0")))
+      sample.map(Importer.getRecord).saveToCassandra("meteo", "data")
 
-    l.saveToCassandra("meteo", "data")
+    }
 
-    val rdd = sc.cassandraTable("meteo", "data")
-    println(rdd.count)
-    rdd.foreach(println)
+    save(years.head, 0.01)
 
-
-    //    println(rdd.map(_.getInt("value")).sum)
-
-    //    f1.take(10).foreach(println)
-
-    //    println(f1.count())
+    val rdd = sc.cassandraTable[Record]("meteo", "data")
+    println("There are " + rdd.count + " records")
 
   }
 }
