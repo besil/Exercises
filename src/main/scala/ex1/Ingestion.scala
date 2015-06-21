@@ -14,7 +14,9 @@ object Ingestion {
 
     val f1 = sc.textFile("data/2012.csv.gz")
 
-    println(f1.count())
+    f1.take(10).foreach(println)
+
+    //    println(f1.count())
 
   }
 }
